@@ -7,12 +7,12 @@ import sys
 from pathlib import Path
 
 
-def format_json(text: str, *, compact: bool = False, indent: int = 2) -> str:
+def format_json(text: str, *, compact: bool = False, indent: int = 2, sort_keys: bool = False) -> str:
     """Return normalized JSON, or raise JSONDecodeError for invalid input."""
     value = json.loads(text)
     if compact:
-        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
-    return json.dumps(value, ensure_ascii=False, indent=indent)
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=sort_keys)
+    return json.dumps(value, ensure_ascii=False, indent=indent, sort_keys=sort_keys)
 
 
 def main() -> int:
@@ -20,6 +20,7 @@ def main() -> int:
     parser.add_argument("file", nargs="?", type=Path, help="JSON input file (default: stdin)")
     parser.add_argument("--check", action="store_true", help="Validate only; don't print JSON")
     parser.add_argument("--compact", action="store_true", help="Print minified JSON")
+    parser.add_argument("--sort-keys", action="store_true", help="Sort object keys for reproducible output")
     parser.add_argument("--indent", type=int, default=2, help="Indent width (default: 2)")
     args = parser.parse_args()
     if args.check and args.compact:
@@ -28,7 +29,7 @@ def main() -> int:
         parser.error("--indent must be between 0 and 16")
     try:
         text = args.file.read_text(encoding="utf-8") if args.file else sys.stdin.read()
-        output = format_json(text, compact=args.compact, indent=args.indent)
+        output = format_json(text, compact=args.compact, indent=args.indent, sort_keys=args.sort_keys)
     except (OSError, UnicodeError) as error:
         print(f"Input error: {error}", file=sys.stderr)
         return 2

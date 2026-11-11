@@ -47,6 +47,19 @@ class JsonToolTests(unittest.TestCase):
         result = run_cli("--indent", "-1", input_text="{}")
         self.assertEqual(result.returncode, 2)
 
+    def test_sort_keys_pretty_nested(self):
+        result = format_json('{"z":{"b":1,"a":2},"a":0}', sort_keys=True)
+        self.assertLess(result.index('"a": 0'), result.index('"z":'))
+        self.assertLess(result.index('"a": 2'), result.index('"b": 1'))
+
+    def test_sort_keys_compact_cli(self):
+        result = run_cli("--sort-keys", "--compact", input_text='{"z":2,"a":1}')
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout.strip(), '{"a":1,"z":2}')
+
+    def test_default_preserves_order(self):
+        self.assertEqual(format_json('{"z":2,"a":1}', compact=True), '{"z":2,"a":1}')
+
     def test_empty_input_invalid(self):
         result = run_cli(input_text="")
         self.assertEqual(result.returncode, 1)
