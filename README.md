@@ -80,6 +80,18 @@ echo '{"name":"café","active":true}' | python tools/json_tool.py --indent 4
 
 **Options:** `--check` validates without output (exit code 0 for valid, 1 for malformed JSON); `--compact` writes minified JSON; `--indent N` sets indentation from 0 to 16 (default 2). Input errors and invalid option combinations return exit code 2. Use `--help` for details.
 
+## CSV Analyzer CLI
+
+Inspect CSV structure, count data rows, list column names, and identify empty values per column without external packages. Input can be a UTF-8 file or standard input.
+
+```bash
+python tools/csv_analyzer.py examples/sample.csv
+python tools/csv_analyzer.py --json examples/sample.csv
+python tools/csv_analyzer.py --delimiter ';' examples/sample.csv
+```
+
+The last example illustrates delimiter selection; choose a delimiter that matches your file's actual format. The CLI rejects missing/duplicate headers and inconsistent row widths, handles quoted delimiters, and returns nonzero exit codes for invalid files. It reports *empty string or whitespace-only cells* as missing values, without inferring numeric types.
+
 ## Contributing
 
 New ideas, bug fixes, and documentation improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and expectations. A collaborative JSON feature was completed through [issue #2](https://github.com/muhammadsaadjalil/developer-playground/issues/2).
