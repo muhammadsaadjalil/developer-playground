@@ -33,18 +33,18 @@ class CsvAnalyzerTests(unittest.TestCase):
         self.assertEqual(result["rows"], 1)
 
     def test_utf8_bom_in_stdin(self):
-        result = run_cli("--json", input_text="\\ufeffname,city\\nAlice,Lahore\\n")
+        result = run_cli("--json", input_text="\ufeffname,city\nAlice,Lahore\n")
         self.assertEqual(result.returncode, 0)
         self.assertEqual(json.loads(result.stdout)["column_names"], ["name", "city"])
 
     def test_quoted_multiline_field(self):
-        result = analyze_csv('name,notes\\nAlice,"first\\nsecond"\\n')
+        result = analyze_csv('name,notes\nAlice,"first\nsecond"\n')
         self.assertEqual(result["rows"], 1)
         self.assertEqual(result["missing_values"], {"name": 0, "notes": 0})
 
     def test_unclosed_quote_rejected(self):
         with self.assertRaisesRegex(Exception, "unexpected end"):
-            analyze_csv('name,notes\\nAlice,"unfinished')
+            analyze_csv('name,notes\nAlice,"unfinished')
 
     def test_header_only(self):
         self.assertEqual(analyze_csv("a,b\n")["rows"], 0)
