@@ -85,7 +85,7 @@ For the full list of options, run `python tools/text_stats.py --help`.
 python -m unittest discover -s tests -v
 ```
 
-The same tests run automatically on pull requests and pushes to `main` through GitHub Actions.
+The same tests run automatically on pull requests and pushes to `main` through GitHub Actions. Run `python scripts/smoke_test.py` for end-to-end sample-file checks. See [Release checklist](docs/RELEASING.md) before tagging a release.
 
 ## JSON Formatter & Validator
 
