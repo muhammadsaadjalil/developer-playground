@@ -21,12 +21,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("file", nargs="?", type=Path, help="UTF-8 file (default: stdin)")
     parser.add_argument("--json", action="store_true", help="Print statistics as JSON")
+    parser.add_argument("--bytes", action="store_true", help="Include UTF-8 byte count")
     args = parser.parse_args()
     try:
         text = args.file.read_text(encoding="utf-8") if args.file else sys.stdin.read()
     except (OSError, UnicodeError) as error:
         parser.error(str(error))
     statistics = summarize(text)
+    if args.bytes:
+        statistics["bytes"] = len(text.encode("utf-8"))
     if args.json:
         print(json.dumps(statistics, ensure_ascii=False))
     else:

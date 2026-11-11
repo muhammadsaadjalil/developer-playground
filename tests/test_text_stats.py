@@ -46,6 +46,23 @@ class TextStatsTests(unittest.TestCase):
             {"lines": 2, "words": 4, "characters": 21}
         )
 
+    def test_optional_utf8_bytes_json(self):
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--json", "--bytes"],
+            input="café ☕",
+            capture_output=True, text=True, encoding="utf-8", check=True,
+        )
+        stats = json.loads(result.stdout)
+        self.assertEqual(stats["characters"], 6)
+        self.assertEqual(stats["bytes"], len("café ☕".encode("utf-8")))
+
+    def test_optional_utf8_bytes_default_output(self):
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--bytes"],
+            input="é", capture_output=True, text=True, encoding="utf-8", check=True,
+        )
+        self.assertIn("bytes: 2", result.stdout)
+
     def test_json_empty_input(self):
         result = subprocess.run(
             [sys.executable, str(SCRIPT), "--json"],
