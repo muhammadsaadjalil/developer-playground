@@ -31,6 +31,31 @@ These archives contain the Python source scripts, examples, documentation, and t
 
 **Feedback and contributions:** [Browse issues](https://github.com/muhammadsaadjalil/developer-playground/issues) · [Suggest an improvement](https://github.com/muhammadsaadjalil/developer-playground/issues/new) · [Contributing guide](CONTRIBUTING.md)
 
+## Windows PowerShell quick start
+
+Open PowerShell and check that Git and Python 3.10 or later are available.
+
+```powershell
+git --version
+py -3 --version
+```
+
+If `py` is unavailable, run `python --version`. If it reports Python 3.10 or later, use `python` in place of `py -3` below.
+
+Clone the repository, then run the sample commands from its root.
+
+```powershell
+git clone https://github.com/muhammadsaadjalil/developer-playground.git
+Set-Location developer-playground
+py -3 tools/text_stats.py --json README.md
+py -3 tools/json_tool.py --check examples/sample.json
+$LASTEXITCODE
+py -3 tools/csv_analyzer.py --json examples/sample.csv
+py -3 tools/checksum.py README.md
+```
+
+The text and CSV commands print JSON summaries. The JSON validation command exits silently on success (`$LASTEXITCODE` is `0` immediately after it runs). The checksum command prints the SHA-256 digest for `README.md`.
+
 ## Available utility: Text Statistics CLI
 
 Count lines, whitespace-separated words, and Unicode characters in UTF-8 text. Input can come from a file or from standard input. The tool uses only the Python standard library.
