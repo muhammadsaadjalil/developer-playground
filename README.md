@@ -67,6 +67,19 @@ python -m unittest discover -s tests -v
 
 The same tests run automatically on pull requests and pushes to `main` through GitHub Actions.
 
+## JSON Formatter & Validator
+
+Format, minify, or validate JSON using only the Python standard library.
+
+```bash
+python tools/json_tool.py examples/sample.json
+python tools/json_tool.py --compact examples/sample.json
+python tools/json_tool.py --check examples/sample.json
+echo '{"name":"café","active":true}' | python tools/json_tool.py --indent 4
+```
+
+**Options:** `--check` validates without output (exit code 0 for valid, 1 for malformed JSON); `--compact` writes minified JSON; `--indent N` sets indentation from 0 to 16 (default 2). Input errors and invalid option combinations return exit code 2. Use `--help` for details.
+
 ## Contributing
 
 New ideas, bug fixes, and documentation improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and expectations. A collaborative JSON feature was completed through [issue #2](https://github.com/muhammadsaadjalil/developer-playground/issues/2).
