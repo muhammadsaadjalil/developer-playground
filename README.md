@@ -49,6 +49,7 @@ git clone https://github.com/muhammadsaadjalil/developer-playground.git
 Set-Location developer-playground
 py -3 tools/text_stats.py --json README.md
 py -3 tools/json_tool.py --check examples/sample.json
+$LASTEXITCODE
 py -3 tools/csv_analyzer.py --json examples/sample.csv
 py -3 tools/checksum.py README.md
 ```
