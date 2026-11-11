@@ -1,6 +1,25 @@
 # Developer Playground
 
-A small, open-source collection of **dependency-free Python developer utilities** with readable code, practical examples, and automated tests.
+[![Python tests](https://github.com/muhammadsaadjalil/developer-playground/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/muhammadsaadjalil/developer-playground/actions/workflows/tests.yml)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
+
+**Small Python tools for everyday development tasks.** Format and validate JSON, inspect CSV data, and count text statistics—all with the Python standard library, no extra dependencies, and automated tests.
+
+> Built for developers, students, and anyone who wants practical command-line utilities with readable source code.
+
+## At a glance
+
+| Tool | What it does | Try it |
+| --- | --- | --- |
+| **Text Statistics** | Counts lines, words, and characters; supports JSON output | `python tools/text_stats.py --json README.md` |
+| **JSON Formatter & Validator** | Pretty-prints, minifies, and validates JSON | `python tools/json_tool.py --check examples/sample.json` |
+| **CSV Analyzer** | Counts rows/columns and empty cells; supports JSON output | `python tools/csv_analyzer.py --json examples/sample.csv` |
+
+**Quick start:** Requires Python 3.10 or later. Clone this repository and run any of the commands above from the repository root. See below for detailed usage and examples.
+
+**Feedback and contributions:** [Browse issues](https://github.com/muhammadsaadjalil/developer-playground/issues) · [Suggest an improvement](https://github.com/muhammadsaadjalil/developer-playground/issues/new) · [Contributing guide](CONTRIBUTING.md)
 
 ## Available utility: Text Statistics CLI
 
