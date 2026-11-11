@@ -6,7 +6,7 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
-**Small Python tools for everyday development tasks.** Format and validate JSON, inspect CSV data, and count text statistics—all with the Python standard library, no extra dependencies, and automated tests.
+**Small Python tools for everyday development tasks.** Format and validate JSON, analyze CSV data, count lines, words, and characters in text, and compute or verify SHA-256 checksums. All four tools use only the Python standard library and have automated tests.
 
 > Built for developers, students, and anyone who wants practical command-line utilities with readable source code.
 
