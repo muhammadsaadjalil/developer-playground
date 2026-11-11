@@ -18,6 +18,8 @@
 | **SHA-256 Checksum** | Hashes files in chunks and verifies an expected SHA-256 digest | `python tools/checksum.py README.md` |
 | **CSV Analyzer** | Counts rows/columns and empty cells; supports JSON output | `python tools/csv_analyzer.py --json examples/sample.csv` |
 
+**Current version:** [1.0.0](VERSION) (release candidate; GitHub tag and release publication pending). See [Changelog](CHANGELOG.md) and [Release notes](docs/RELEASE_NOTES_v1.0.0.md).
+
 **Quick start:** Requires Python 3.10 or later. Clone this repository and run any of the commands above from the repository root. See below for detailed usage and examples.
 
 **Feedback and contributions:** [Browse issues](https://github.com/muhammadsaadjalil/developer-playground/issues) · [Suggest an improvement](https://github.com/muhammadsaadjalil/developer-playground/issues/new) · [Contributing guide](CONTRIBUTING.md)
@@ -122,10 +124,10 @@ Calculate a SHA-256 digest for a file or compare it against a known digest. The 
 
 ```bash
 python tools/checksum.py README.md
-python tools/checksum.py README.md --expect <64-character-hex-digest>
+python tools/checksum.py README.md --expect 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 ```
 
-Verification exits with 0 for a match, 1 for a mismatch, or 2 for invalid inputs and file errors. SHA-256 can detect changes to a file when you already have a trusted expected digest; it does not itself establish the origin of that digest.
+The second command demonstrates syntax with a placeholder digest and will report a mismatch unless your file happens to match it. Replace the example hash with a trusted expected SHA-256 digest for real verification. Verification exits with 0 for a match, 1 for a mismatch, or 2 for invalid inputs and file errors. SHA-256 can detect changes to a file when you already have a trusted expected digest; it does not itself establish the origin of that digest.
 
 ## Contributing
 
