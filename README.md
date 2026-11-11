@@ -56,6 +56,7 @@ Machine-readable JSON output is available for scripts and automation:
 
 ```bash
 python tools/text_stats.py --json README.md
+python tools/text_stats.py --json --bytes README.md
 ```
 
 Example:
@@ -69,6 +70,8 @@ To read from standard input:
 ```bash
 echo "Hello world" | python tools/text_stats.py --json
 ```
+
+The optional `--bytes` flag adds the UTF-8 encoded byte count alongside the default character count, useful when diagnosing encoding and file-size differences.
 
 For the full list of options, run `python tools/text_stats.py --help`.
 
