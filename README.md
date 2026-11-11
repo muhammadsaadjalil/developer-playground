@@ -1,5 +1,6 @@
 # Developer Playground
 
+[![Release v1.0.0](https://img.shields.io/badge/Release-v1.0.0-2ea44f?logo=github&logoColor=white)](https://github.com/muhammadsaadjalil/developer-playground/releases/tag/v1.0.0)
 [![Python tests](https://github.com/muhammadsaadjalil/developer-playground/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/muhammadsaadjalil/developer-playground/actions/workflows/tests.yml)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -8,6 +9,12 @@
 **Small Python tools for everyday development tasks.** Format and validate JSON, inspect CSV data, and count text statistics—all with the Python standard library, no extra dependencies, and automated tests.
 
 > Built for developers, students, and anyone who wants practical command-line utilities with readable source code.
+
+## Download v1.0.0
+
+Download the verified v1.0.0 source code directly from GitHub: **[ZIP archive](https://github.com/muhammadsaadjalil/developer-playground/archive/refs/tags/v1.0.0.zip)** · **[TAR.GZ archive](https://github.com/muhammadsaadjalil/developer-playground/archive/refs/tags/v1.0.0.tar.gz)** · **[Release details](https://github.com/muhammadsaadjalil/developer-playground/releases/tag/v1.0.0)**.
+
+These archives contain the Python source scripts, examples, documentation, and tests. Python 3.10 or later is required; no installation package or compiled executable is provided.
 
 ## At a glance
 
@@ -18,7 +25,7 @@
 | **SHA-256 Checksum** | Hashes files in chunks and verifies an expected SHA-256 digest | `python tools/checksum.py README.md` |
 | **CSV Analyzer** | Counts rows/columns and empty cells; supports JSON output | `python tools/csv_analyzer.py --json examples/sample.csv` |
 
-**Current version:** [1.0.0](VERSION) (release candidate; GitHub tag and release publication pending). See [Changelog](CHANGELOG.md) and [Release notes](docs/RELEASE_NOTES_v1.0.0.md).
+**Latest stable release:** [v1.0.0](https://github.com/muhammadsaadjalil/developer-playground/releases/tag/v1.0.0) · [Version file](VERSION) · [Changelog](CHANGELOG.md) · [Release notes](docs/RELEASE_NOTES_v1.0.0.md).
 
 **Quick start:** Requires Python 3.10 or later. Clone this repository and run any of the commands above from the repository root. See below for detailed usage and examples.
 
