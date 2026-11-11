@@ -1,27 +1,76 @@
 # Developer Playground
 
-Small, self-contained utilities and learning exercises built through a standard branch and pull-request workflow.
+A small, open-source collection of **dependency-free Python developer utilities** with readable code, practical examples, and automated tests.
 
-## Text statistics CLI
+## Available utility: Text Statistics CLI
 
-The Python CLI at `tools/text_stats.py` reports lines, whitespace-separated words, and Unicode characters from a UTF-8 text file or standard input. No third-party packages are required.
+Count lines, whitespace-separated words, and Unicode characters in UTF-8 text. Input can come from a file or from standard input. The tool uses only the Python standard library.
+
+**Requirements:** Python 3.10 or later. No installation or third-party packages needed.
+
+### Quick start
+
+Clone this repository and navigate into its directory:
+
+```bash
+git clone https://github.com/muhammadsaadjalil/developer-playground.git
+cd developer-playground
+```
+
+Run a file through the CLI:
 
 ```bash
 python tools/text_stats.py README.md
-python tools/text_stats.py --json README.md
-printf 'Hello world\n' | python tools/text_stats.py --json
 ```
 
-The optional `--json` flag prints machine-readable values with the keys `lines`, `words`, and `characters`. Without it, the original human-readable output remains unchanged.
+Example output:
 
-Run the tests from the repository root:
+```text
+lines: 52
+words: 281
+characters: 1760
+```
+
+*Those counts are illustrative; your actual output will depend on the input file.*
+
+Machine-readable JSON output is available for scripts and automation:
 
 ```bash
-python -m unittest discover -s tests
+python tools/text_stats.py --json README.md
 ```
 
-The JSON feature and its tests were developed collaboratively through [issue #2](https://github.com/muhammadsaadjalil/developer-playground/issues/2).
+Example:
+
+```json
+{"lines": 2, "words": 4, "characters": 21}
+```
+
+To read from standard input:
+
+```bash
+echo "Hello world" | python tools/text_stats.py --json
+```
+
+For the full list of options, run `python tools/text_stats.py --help`.
+
+### How counts work
+
+- **Lines:** Number of lines returned by Python's `str.splitlines()`. A trailing newline does not create an extra empty line.
+- **Words:** Runs of non-whitespace characters, as matched by `\S+`.
+- **Characters:** Number of Python Unicode code points, including whitespace and newlines (not byte size).
+
+### Running tests
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+The same tests run automatically on pull requests and pushes to `main` through GitHub Actions.
+
+## Contributing
+
+New ideas, bug fixes, and documentation improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and expectations. A collaborative JSON feature was completed through [issue #2](https://github.com/muhammadsaadjalil/developer-playground/issues/2).
 
 ## License
 
-No license has been granted yet. A license file can be added separately if the project is to be reused by others.
+Released under the [MIT License](LICENSE).
