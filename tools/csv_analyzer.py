@@ -13,7 +13,7 @@ def analyze_csv(text: str, *, delimiter: str = ",") -> dict:
     """Return a CSV summary; raise ValueError on malformed headers or rows."""
     import io
 
-    reader = csv.reader(io.StringIO(text, newline=""), delimiter=delimiter, strict=True)
+    reader = csv.reader(io.StringIO(text.removeprefix("\ufeff"), newline=""), delimiter=delimiter, strict=True)
     try:
         headers = next(reader)
     except StopIteration as error:
