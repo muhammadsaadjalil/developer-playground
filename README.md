@@ -93,11 +93,12 @@ Format, minify, or validate JSON using only the Python standard library.
 ```bash
 python tools/json_tool.py examples/sample.json
 python tools/json_tool.py --compact examples/sample.json
+python tools/json_tool.py --sort-keys examples/sample.json
 python tools/json_tool.py --check examples/sample.json
 echo '{"name":"café","active":true}' | python tools/json_tool.py --indent 4
 ```
 
-**Options:** `--check` validates without output (exit code 0 for valid, 1 for malformed JSON); `--compact` writes minified JSON; `--indent N` sets indentation from 0 to 16 (default 2). Input errors and invalid option combinations return exit code 2. Use `--help` for details.
+**Options:** `--sort-keys` sorts object keys for deterministic output; `--check` validates without output (exit code 0 for valid, 1 for malformed JSON); `--compact` writes minified JSON; `--indent N` sets indentation from 0 to 16 (default 2). Input errors and invalid option combinations return exit code 2. Use `--help` for details.
 
 ## CSV Analyzer CLI
 
