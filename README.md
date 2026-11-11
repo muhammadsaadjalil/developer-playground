@@ -15,6 +15,7 @@
 | --- | --- | --- |
 | **Text Statistics** | Counts lines, words, and characters; supports JSON output | `python tools/text_stats.py --json README.md` |
 | **JSON Formatter & Validator** | Pretty-prints, minifies, and validates JSON | `python tools/json_tool.py --check examples/sample.json` |
+| **SHA-256 Checksum** | Hashes files in chunks and verifies an expected SHA-256 digest | `python tools/checksum.py README.md` |
 | **CSV Analyzer** | Counts rows/columns and empty cells; supports JSON output | `python tools/csv_analyzer.py --json examples/sample.csv` |
 
 **Quick start:** Requires Python 3.10 or later. Clone this repository and run any of the commands above from the repository root. See below for detailed usage and examples.
@@ -111,6 +112,17 @@ python tools/csv_analyzer.py --delimiter ';' examples/sample.csv
 ```
 
 The last example illustrates delimiter selection; choose a delimiter that matches your file's actual format. The CLI rejects missing/duplicate headers and inconsistent row widths, handles quoted delimiters, and returns nonzero exit codes for invalid files. It reports *empty string or whitespace-only cells* as missing values, without inferring numeric types.
+
+## SHA-256 Checksum CLI
+
+Calculate a SHA-256 digest for a file or compare it against a known digest. The file is read in 1 MB chunks rather than loading the entire file into memory.
+
+```bash
+python tools/checksum.py README.md
+python tools/checksum.py README.md --expect <64-character-hex-digest>
+```
+
+Verification exits with 0 for a match, 1 for a mismatch, or 2 for invalid inputs and file errors. SHA-256 can detect changes to a file when you already have a trusted expected digest; it does not itself establish the origin of that digest.
 
 ## Contributing
 
