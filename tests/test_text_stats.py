@@ -35,10 +35,8 @@ class TextStatsTests(unittest.TestCase):
     def test_json_output(self):
         result = subprocess.run(
             [sys.executable, str(SCRIPT), "--json"],
-            input="Hello world\nGood day\n",
+            input=b"Hello world\nGood day\n",
             capture_output=True,
-            text=True,
-            encoding="utf-8",
             check=True,
         )
 
