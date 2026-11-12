@@ -8,6 +8,29 @@
 
 **Small Python tools for everyday development tasks.** Format and validate JSON, analyze CSV data, count lines, words, and characters in text, and compute or verify SHA-256 checksums. All four tools use only the Python standard library and have automated tests.
 
+## Survey Data Checker
+
+Check a survey export before analysis. The checker reads a UTF-8 CSV and a JSON rules file, then prints a report with CSV line numbers and the checks that flagged each row. It leaves the source CSV intact and omits response values from the report.
+
+Run this example from a checkout of `main`:
+
+```bash
+python tools/survey_check.py examples/survey_sample.csv --rules examples/survey_rules.json
+```
+
+On Windows, you can use `py -3` in place of `python`. The [synthetic sample](examples/survey_sample.csv) checks four rows and flags two. To save the report, append `> survey-review.json` using a filename different from your source CSV.
+
+Copy the [example rules](examples/survey_rules.json) and replace its column names with your exact CSV headers. Include only the checks you need:
+
+| Rule | What it flags |
+| --- | --- |
+| `required` | A blank answer in a listed column. |
+| `duplicate_by` | A repeated combination of nonblank values across the listed columns. The report gives the first matching line. |
+| `integer_ranges` | A nonblank answer that is not a whole number or falls outside the inclusive `min` and `max`. |
+| `skip` | A filled `blank_column` when the `when_column` answer matches `equals` (case-insensitive). |
+
+Checks trim surrounding whitespace. Review the flags before making any edits or exclusions in your analysis copy. Exit code `0` means no rows were flagged, `1` means rows need review, and `2` means the checker could not read or validate the inputs.
+
 ## Download v1.0.0
 
 Download the verified v1.0.0 source code directly from GitHub: **[ZIP archive](https://github.com/muhammadsaadjalil/developer-playground/archive/refs/tags/v1.0.0.zip)** · **[TAR.GZ archive](https://github.com/muhammadsaadjalil/developer-playground/archive/refs/tags/v1.0.0.tar.gz)** · **[Release details](https://github.com/muhammadsaadjalil/developer-playground/releases/tag/v1.0.0)**.
