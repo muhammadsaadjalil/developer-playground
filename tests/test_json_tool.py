@@ -69,6 +69,28 @@ class JsonToolTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertEqual(json.loads(result.stdout), {"emoji": "☕"})
 
+    def test_rejects_nonstandard_constants(self):
+        for token in ("NaN", "Infinity", "-Infinity"):
+            with self.subTest(token=token):
+                result = run_cli("--check", input_text=token)
+                self.assertEqual(result.returncode, 1)
+                self.assertIn("not a valid JSON constant", result.stderr)
+
+    def test_escaped_surrogate_roundtrips(self):
+        result = run_cli("--compact", input_text=r'"\ud800"')
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout.strip(), r'"\ud800"')
+
+    def test_deeply_nested_input_reports_error_without_traceback(self):
+        result = run_cli("--check", input_text="[" * 20000 + "]" * 20000)
+        self.assertEqual(result.returncode, 1)
+        self.assertNotIn("Traceback", result.stderr)
+
+    def test_large_exponent_validates_without_emitting_infinity(self):
+        self.assertEqual(run_cli("--check", input_text="1e400").returncode, 0)
+        result = run_cli(input_text="1e400")
+        self.assertEqual((result.returncode, result.stdout), (1, ""))
+
 
 if __name__ == "__main__":
     unittest.main()

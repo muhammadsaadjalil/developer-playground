@@ -7,12 +7,22 @@ import sys
 from pathlib import Path
 
 
+def reject_constant(token: str) -> None:
+    raise ValueError(f"{token} is not a valid JSON constant")
+
+
+def parse_json(text: str):
+    return json.loads(text.removeprefix("\ufeff"), parse_constant=reject_constant)
+
+
 def format_json(text: str, *, compact: bool = False, indent: int = 2, sort_keys: bool = False) -> str:
-    """Return normalized JSON, or raise JSONDecodeError for invalid input."""
-    value = json.loads(text)
-    if compact:
-        return json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=sort_keys)
-    return json.dumps(value, ensure_ascii=False, indent=indent, sort_keys=sort_keys)
+    """Return normalized JSON, or raise an error if it cannot be formatted."""
+    output = json.dumps(
+        parse_json(text), ensure_ascii=False, allow_nan=False, sort_keys=sort_keys,
+        indent=None if compact else indent, separators=(",", ":") if compact else None,
+    )
+    # Preserve escaped lone surrogates without emitting invalid UTF-8.
+    return output.encode("utf-8", errors="backslashreplace").decode("utf-8")
 
 
 def main() -> int:
@@ -28,7 +38,11 @@ def main() -> int:
     if args.indent < 0 or args.indent > 16:
         parser.error("--indent must be between 0 and 16")
     try:
-        text = args.file.read_text(encoding="utf-8") if args.file else sys.stdin.read()
+        raw = args.file.read_bytes() if args.file else sys.stdin.buffer.read()
+        text = raw.decode("utf-8")
+        if args.check:
+            parse_json(text)
+            return 0
         output = format_json(text, compact=args.compact, indent=args.indent, sort_keys=args.sort_keys)
     except (OSError, UnicodeError) as error:
         print(f"Input error: {error}", file=sys.stderr)
@@ -36,8 +50,11 @@ def main() -> int:
     except json.JSONDecodeError as error:
         print(f"Invalid JSON at line {error.lineno}, column {error.colno}: {error.msg}", file=sys.stderr)
         return 1
-    if not args.check:
-        print(output)
+    except (ValueError, RecursionError) as error:
+        print(f"JSON error: {error}", file=sys.stderr)
+        return 1
+    sys.stdout.reconfigure(encoding="utf-8")
+    print(output)
     return 0
 
 

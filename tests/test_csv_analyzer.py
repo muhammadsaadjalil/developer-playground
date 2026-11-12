@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 import sys
 import unittest
@@ -77,6 +78,15 @@ class CsvAnalyzerTests(unittest.TestCase):
     def test_cli_invalid_delimiter(self):
         result = run_cli("--delimiter", "::", input_text="a,b\n")
         self.assertEqual(result.returncode, 2)
+
+    def test_unicode_cli_with_non_utf8_process_encoding(self):
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--json"],
+            input="café\r\nvalue\r\n".encode("utf-8"),
+            env={**os.environ, "PYTHONIOENCODING": "ascii"},
+            capture_output=True, check=True,
+        )
+        self.assertEqual(json.loads(result.stdout)["column_names"], ["café"])
 
 
 if __name__ == "__main__":

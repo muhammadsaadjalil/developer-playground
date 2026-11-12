@@ -51,7 +51,8 @@ def main() -> int:
     if len(args.delimiter) != 1:
         parser.error("--delimiter must be a single character")
     try:
-        text = args.file.read_text(encoding="utf-8-sig") if args.file else sys.stdin.read()
+        raw = args.file.read_bytes() if args.file else sys.stdin.buffer.read()
+        text = raw.decode("utf-8")
         result = analyze_csv(text, delimiter=args.delimiter)
     except (OSError, UnicodeError) as error:
         print(f"Input error: {error}", file=sys.stderr)
@@ -60,6 +61,7 @@ def main() -> int:
         print(f"Invalid CSV: {error}", file=sys.stderr)
         return 1
 
+    sys.stdout.reconfigure(encoding="utf-8")
     if args.json:
         print(json.dumps(result, ensure_ascii=False))
     else:
