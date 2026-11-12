@@ -8,8 +8,6 @@
 
 **Small Python tools for everyday development tasks.** Format and validate JSON, analyze CSV data, count lines, words, and characters in text, and compute or verify SHA-256 checksums. All four tools use only the Python standard library and have automated tests.
 
-> Built for developers, students, and anyone who wants practical command-line utilities with readable source code.
-
 ## Download v1.0.0
 
 Download the verified v1.0.0 source code directly from GitHub: **[ZIP archive](https://github.com/muhammadsaadjalil/developer-playground/archive/refs/tags/v1.0.0.zip)** · **[TAR.GZ archive](https://github.com/muhammadsaadjalil/developer-playground/archive/refs/tags/v1.0.0.tar.gz)** · **[Release details](https://github.com/muhammadsaadjalil/developer-playground/releases/tag/v1.0.0)**.
@@ -56,7 +54,7 @@ py -3 tools/checksum.py README.md
 
 The text and CSV commands print JSON summaries. The JSON validation command exits silently on success (`$LASTEXITCODE` is `0` immediately after it runs). The checksum command prints the SHA-256 digest for `README.md`.
 
-## Available utility: Text Statistics CLI
+## Text Statistics CLI
 
 Count lines, whitespace-separated words, and Unicode characters in UTF-8 text. Input can come from a file or from standard input. The tool uses only the Python standard library.
 
@@ -116,14 +114,6 @@ For the full list of options, run `python tools/text_stats.py --help`.
 - **Words:** Runs of non-whitespace characters, as matched by `\S+`.
 - **Characters:** Number of Python Unicode code points, including whitespace and newlines (not byte size).
 
-### Running tests
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-The same tests run automatically on pull requests and pushes to `main` through GitHub Actions. Run `python scripts/smoke_test.py` for end-to-end sample-file checks. See [Release checklist](docs/RELEASING.md) before tagging a release.
-
 ## JSON Formatter & Validator
 
 Format, minify, or validate JSON using only the Python standard library.
@@ -156,14 +146,26 @@ Calculate a SHA-256 digest for a file or compare it against a known digest. The 
 
 ```bash
 python tools/checksum.py README.md
-python tools/checksum.py README.md --expect 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+python -c "from pathlib import Path; Path('checksum-demo.txt').write_bytes(b'abc')"
+python tools/checksum.py checksum-demo.txt --expect ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
 ```
 
-The second command demonstrates syntax with a placeholder digest and will report a mismatch unless your file happens to match it. Replace the example hash with a trusted expected SHA-256 digest for real verification. Verification exits with 0 for a match, 1 for a mismatch, or 2 for invalid inputs and file errors. SHA-256 can detect changes to a file when you already have a trusted expected digest; it does not itself establish the origin of that digest.
+The verification example writes the exact bytes `abc` to `checksum-demo.txt` and should print `SHA-256 verified`. For a real download, use the expected digest published by a trusted source. Verification exits with 0 for a match, 1 for a mismatch, or 2 for invalid inputs and file errors. SHA-256 can detect changes to a file when you already have a trusted expected digest; it does not itself establish the origin of that digest.
+
+## Running tests
+
+From the repository root, run:
+
+```bash
+python -m unittest discover -s tests -v
+python scripts/smoke_test.py
+```
+
+GitHub Actions runs both commands on Linux and Windows. See the [release checklist](docs/RELEASING.md) before tagging a release.
 
 ## Contributing
 
-New ideas, bug fixes, and documentation improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and expectations. A collaborative JSON feature was completed through [issue #2](https://github.com/muhammadsaadjalil/developer-playground/issues/2).
+New ideas, bug fixes, and documentation improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and expectations.
 
 ## License
 
