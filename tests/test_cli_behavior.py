@@ -11,32 +11,30 @@ SCRIPT = ROOT / "tools" / "text_stats.py"
 
 
 class CliBehaviorTests(unittest.TestCase):
-    def run_cli(self, *args: str, input_text: str = "") -> subprocess.CompletedProcess[str]:
+    def run_cli(self, *args: str, input_text: str = "") -> subprocess.CompletedProcess[bytes]:
         return subprocess.run(
             [sys.executable, str(SCRIPT), *args],
-            input=input_text,
+            input=input_text.encode("utf-8"),
             capture_output=True,
-            text=True,
-            encoding="utf-8",
             check=False,
         )
 
     def test_default_output_preserves_readable_format(self):
         result = self.run_cli(input_text="Hello world\n")
         self.assertEqual(result.returncode, 0)
-        self.assertEqual(result.stdout, "lines: 1\nwords: 2\ncharacters: 12\n")
-        self.assertEqual(result.stderr, "")
+        self.assertEqual(result.stdout.splitlines(), [b"lines: 1", b"words: 2", b"characters: 12"])
+        self.assertEqual(result.stderr, b"")
 
     def test_missing_input_file_reports_error(self):
         missing_file = ROOT / "__missing_text_stats_input_9b7f__.txt"
         result = self.run_cli(str(missing_file))
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("error:", result.stderr.lower())
+        self.assertIn(b"error:", result.stderr.lower())
 
     def test_help_lists_json_option(self):
         result = self.run_cli("--help")
         self.assertEqual(result.returncode, 0)
-        self.assertIn("--json", result.stdout)
+        self.assertIn(b"--json", result.stdout)
 
 
 if __name__ == "__main__":

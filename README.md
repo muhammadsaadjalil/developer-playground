@@ -112,7 +112,7 @@ For the full list of options, run `python tools/text_stats.py --help`.
 
 - **Lines:** Number of lines returned by Python's `str.splitlines()`. A trailing newline does not create an extra empty line.
 - **Words:** Runs of non-whitespace characters, as matched by `\S+`.
-- **Characters:** Number of Python Unicode code points, including whitespace and newlines (not byte size).
+- **Characters:** Number of Unicode code points, including original line endings. CRLF counts as two characters and one line break.
 
 ## JSON Formatter & Validator
 

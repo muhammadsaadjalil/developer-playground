@@ -2,6 +2,7 @@
 import json
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -34,10 +35,8 @@ class TextStatsTests(unittest.TestCase):
     def test_json_output(self):
         result = subprocess.run(
             [sys.executable, str(SCRIPT), "--json"],
-            input="Hello world\nGood day\n",
+            input=b"Hello world\nGood day\n",
             capture_output=True,
-            text=True,
-            encoding="utf-8",
             check=True,
         )
 
@@ -62,6 +61,21 @@ class TextStatsTests(unittest.TestCase):
             input="é", capture_output=True, text=True, encoding="utf-8", check=True,
         )
         self.assertIn("bytes: 2", result.stdout)
+
+    def test_crlf_file_and_stdin_preserve_character_and_byte_counts(self):
+        raw = "é\r\n".encode("utf-8")
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "sample.txt"
+            path.write_bytes(raw)
+            for args, stdin in (([str(path)], b""), ([], raw)):
+                result = subprocess.run(
+                    [sys.executable, str(SCRIPT), "--json", "--bytes", *args],
+                    input=stdin, capture_output=True, check=True,
+                )
+                self.assertEqual(
+                    json.loads(result.stdout),
+                    {"lines": 1, "words": 1, "characters": 3, "bytes": 4},
+                )
 
     def test_json_empty_input(self):
         result = subprocess.run(
